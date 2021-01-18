@@ -1,7 +1,5 @@
-# P5 - 
-
 ![Android](https://img.shields.io/badge/Android-Studio-blue)
-# Projet Todoc
+# P5 - Projet Todoc
 ## Présentation 
 Todoc - Délivrez une application mobile en production.
 
