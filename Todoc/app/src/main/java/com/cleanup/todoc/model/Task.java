@@ -76,11 +76,16 @@ public class Task {
         this.projectId = projectId;
     }
 
+    public long getProjectId() {
+        return projectId;
+    }
+
     /**
      * Returns the project associated to the task.
      *
      * @return the project associated to the task
      */
+
     @Nullable
     public Project getProject() {
         return Project.getProjectById(projectId);
@@ -112,6 +117,10 @@ public class Task {
      */
     private void setCreationTimestamp(long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
+    }
+
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 
     /**

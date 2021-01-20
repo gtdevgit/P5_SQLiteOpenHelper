@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.cleanup.todoc.DataBase.ProjectCrud;
+import com.cleanup.todoc.DataBase.TaskCrud;
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -32,10 +34,11 @@ import java.util.Date;
  * @author Gaëtan HERFRAY
  */
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
+    private static final String TAG = "Todoc MainActivity";
     /**
      * List of all projects available in the application
      */
-    private final Project[] allProjects = Project.getAllProjects();
+    private Project[] allProjects;
 
     /**
      * List of all current tasks of the application
@@ -106,6 +109,24 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 showAddTaskDialog();
             }
         });
+
+        allProjects = loadAllProjects();
+        loadAllTasks();
+    }
+
+    public Project[] loadAllProjects(){
+        ProjectCrud projectCrud = new ProjectCrud(this);
+        ArrayList<Project> arrayList = projectCrud.getAll();
+        Project[] arrayProject = new Project[arrayList.size()];
+        arrayProject = arrayList.toArray(arrayProject);
+        return  arrayProject;
+    }
+
+    public void loadAllTasks(){
+        TaskCrud taskCrud = new TaskCrud(this);
+        tasks.clear();
+        tasks.addAll(taskCrud.getAll());
+        updateTasks();
     }
 
     @Override
@@ -209,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void addTask(@NonNull Task task) {
         tasks.add(task);
+        TaskCrud tc = new TaskCrud(this);
+        tc.insert(task);
         updateTasks();
     }
 
@@ -320,4 +343,4 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
          */
         NONE
     }
-}
+ }
