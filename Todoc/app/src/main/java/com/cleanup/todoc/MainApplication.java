@@ -17,6 +17,7 @@ public class MainApplication extends Application {
     }
 
     public static Application getInstance() {
+        Log.d(TAG, "getInstance() called");
         return application;
     }
 }

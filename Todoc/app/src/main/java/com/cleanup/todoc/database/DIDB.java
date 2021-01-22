@@ -13,6 +13,7 @@ public class DIDB {
     }
 
     public static TodocSQLiteOpenHelper getInstance() {
+        Log.d(TAG, "getInstance() called");
         if (todocSQLiteOpenHelper == null) {
             todocSQLiteOpenHelper = new TodocSQLiteOpenHelper(MainApplication.getInstance(),
                     TodocSQLiteOpenHelper.getDbName(),

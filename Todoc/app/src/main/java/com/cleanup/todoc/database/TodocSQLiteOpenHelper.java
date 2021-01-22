@@ -11,7 +11,7 @@ import com.cleanup.todoc.model.Project;
 
 public class TodocSQLiteOpenHelper extends SQLiteOpenHelper {
 
-    private static final String TAG = "Todoc TodocSQLite";
+    private static final String TAG = "Todoc TodocSQLiteOpenHelper";
     private  static  final int DB_VERSION = 1;
     private static final String DB_NAME = "todocBdd.db";
 

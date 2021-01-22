@@ -1,27 +1,19 @@
-package com.cleanup.todoc.database;
+package com.cleanup.todoc.crud;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.cleanup.todoc.crud.Crud;
+import com.cleanup.todoc.database.TaskTableDefinition;
 import com.cleanup.todoc.model.Task;
 
 import java.util.ArrayList;
 
-public class TaskCrud extends Crud{
+public class TaskCrud extends Crud {
     private static final String TAG = "Todoc TaskCrud";
 
-    public TaskCrud() {
-        super();
-        Log.d(TAG, "Todoc TaskCrud()");
-    }
-
-    public void openForWrite(){
-        super.openForWrite();
-    }
-
-    public long insert(Task task) {
+    public static long insert(Task task) {
         // Question : timestamp
         Log.d(TAG, "Task.insert() called with: task = [" + task + "]");
         ContentValues content = new ContentValues();
@@ -36,7 +28,7 @@ public class TaskCrud extends Crud{
         return  rowId;
     }
 
-    public ArrayList<Task> getAll(){
+    public static ArrayList<Task> getAll(){
         Log.d(TAG, "TaskCrud.getAll() called");
 
         ArrayList<Task> arrayTask= new ArrayList<>();
@@ -63,4 +55,13 @@ public class TaskCrud extends Crud{
         close();
         return arrayTask;
     };
+
+    public static void delete(long Id){
+        Log.d(TAG, "delete() called with: Id = [" + Id + "]");
+        openForWrite();
+        String[] arg = new String[] {String.valueOf(Id)};
+        String where = String.format("%s=?", TaskTableDefinition.getColId(), Id) ;
+        getDb().delete(TaskTableDefinition.getTableName(), where, arg);
+        close();
+    }
 }

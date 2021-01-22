@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +18,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.cleanup.todoc.database.ProjectCrud;
-import com.cleanup.todoc.database.TaskCrud;
+import com.cleanup.todoc.crud.ProjectCrud;
+import com.cleanup.todoc.crud.TaskCrud;
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all projects available in the application
      */
-    private Project[] allProjects;
+    private final Project[] allProjects = ProjectCrud.getAllAsArray();
 
     /**
      * List of all current tasks of the application
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_main);
 
         listTasks = findViewById(R.id.list_tasks);
@@ -109,22 +111,13 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
         });
 
-        allProjects = loadAllProjects();
         loadAllTasks();
-    }
-
-    public Project[] loadAllProjects(){
-        ProjectCrud projectCrud = new ProjectCrud();
-        ArrayList<Project> arrayList = projectCrud.getAll();
-        Project[] arrayProject = new Project[arrayList.size()];
-        arrayProject = arrayList.toArray(arrayProject);
-        return  arrayProject;
+        Log.d(TAG, "onCreate() end");
     }
 
     public void loadAllTasks(){
-        TaskCrud taskCrud = new TaskCrud();
         tasks.clear();
-        tasks.addAll(taskCrud.getAll());
+        tasks.addAll(TaskCrud.getAll());
         updateTasks();
     }
 
@@ -156,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onDeleteTask(Task task) {
         tasks.remove(task);
+        TaskCrud.delete(task.getId());
         updateTasks();
     }
 
@@ -229,8 +223,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void addTask(@NonNull Task task) {
         tasks.add(task);
-        TaskCrud tc = new TaskCrud();
-        tc.insert(task);
+        TaskCrud.insert(task);
         updateTasks();
     }
 
