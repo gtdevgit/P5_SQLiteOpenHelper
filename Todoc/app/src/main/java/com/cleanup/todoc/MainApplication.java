@@ -1,7 +1,10 @@
 package com.cleanup.todoc;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.cleanup.todoc.database.TodocSQLiteOpenHelper;
 
 /**
  * To get the context of the application.
@@ -9,15 +12,18 @@ import android.util.Log;
  */
 public class MainApplication extends Application {
     private static final String TAG = "Todoc MainApplication";
-    private static Application application;
+
+    private SQLiteDatabase db = null;
 
     public MainApplication() {
         Log.d(TAG, "MainApplication() called");
-        application = this;
     }
 
-    public static Application getInstance() {
-        Log.d(TAG, "getInstance() called");
-        return application;
+    public SQLiteDatabase getDb(){
+        Log.d(TAG, "getDb() called");
+        if (db == null) {
+            db = new TodocSQLiteOpenHelper(this).getWritableDatabase();
+        }
+        return db;
     }
 }

@@ -3,6 +3,7 @@ package com.cleanup.todoc.crud;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.cleanup.todoc.MainApplication;
 import com.cleanup.todoc.database.ProjectTableDefinition;
 import com.cleanup.todoc.model.Project;
 
@@ -11,12 +12,16 @@ import java.util.ArrayList;
 public class ProjectCrud extends Crud {
     private static final String TAG = "Todoc ProjectCrud";
 
-    public static ArrayList<Project> getAll(){
+    public ProjectCrud(MainApplication context) {
+        super(context);
+        Log.d(TAG, "ProjectCrud() called with: context = [" + context + "]");
+    }
+
+    public ArrayList<Project> getAll(){
         Log.d(TAG, "ProjectCrud.getAll() called");
 
         ArrayList<Project> arrayList= new ArrayList<>();
 
-        openForRead();
         Cursor cursor = getDb().query(ProjectTableDefinition.getTableName(),
                 new String[] {ProjectTableDefinition.getColId(),
                         ProjectTableDefinition.getColName(),
@@ -33,12 +38,12 @@ public class ProjectCrud extends Crud {
                 cursor.moveToNext();
             }
         };
-        close();
+
         return arrayList;
     };
 
-    public static Project[] getAllAsArray(){
-        ArrayList<Project> arrayList = ProjectCrud.getAll();
+    public Project[] getAllAsArray(){
+        ArrayList<Project> arrayList = this.getAll();
         Project[] arrayProject = new Project[arrayList.size()];
         arrayProject = arrayList.toArray(arrayProject);
         return  arrayProject;

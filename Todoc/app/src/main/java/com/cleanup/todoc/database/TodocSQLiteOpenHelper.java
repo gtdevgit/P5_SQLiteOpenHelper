@@ -15,9 +15,9 @@ public class TodocSQLiteOpenHelper extends SQLiteOpenHelper {
     private  static  final int DB_VERSION = 1;
     private static final String DB_NAME = "todocBdd.db";
 
-    public TodocSQLiteOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DB_NAME, factory, DB_VERSION);
-        Log.d(TAG, "TodocSQLite() called with: context = [" + context + "], name = [" + name + "], factory = [" + factory + "], version = [" + version + "]");
+    public TodocSQLiteOpenHelper(@Nullable Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
+        Log.d(TAG, "TodocSQLite() called with: context = [" + context + "], name = [" + getDbName() + "], version = [" + getDbVersion() + "]");
     }
 
     @Override

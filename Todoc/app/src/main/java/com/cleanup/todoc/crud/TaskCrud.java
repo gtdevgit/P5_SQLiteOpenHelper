@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.cleanup.todoc.MainApplication;
 import com.cleanup.todoc.crud.Crud;
 import com.cleanup.todoc.database.TaskTableDefinition;
 import com.cleanup.todoc.model.Task;
@@ -13,7 +14,12 @@ import java.util.ArrayList;
 public class TaskCrud extends Crud {
     private static final String TAG = "Todoc TaskCrud";
 
-    public static long insert(Task task) {
+    public TaskCrud(MainApplication context) {
+        super(context);
+        Log.d(TAG, "TaskCrud() called with: context = [" + context + "]");
+    }
+
+    public long insert(Task task) {
         // Question : timestamp
         Log.d(TAG, "Task.insert() called with: task = [" + task + "]");
         ContentValues content = new ContentValues();
@@ -21,19 +27,17 @@ public class TaskCrud extends Crud {
         content.put(TaskTableDefinition.getColProjectId(), task.getProjectId());
         content.put(TaskTableDefinition.getColCreationTimestamp(), task.getCreationTimestamp());
 
-        openForWrite();
         long rowId = getDb().insert(TaskTableDefinition.getTableName(), null, content);
         Log.d(TAG, "insert task() rowId = [" + rowId + "]");
-        close();
+
         return  rowId;
     }
 
-    public static ArrayList<Task> getAll(){
+    public ArrayList<Task> getAll(){
         Log.d(TAG, "TaskCrud.getAll() called");
 
         ArrayList<Task> arrayTask= new ArrayList<>();
 
-        openForRead();
         Cursor cursor = getDb().query(TaskTableDefinition.getTableName(),
                 new String[] {TaskTableDefinition.getColId(),
                         TaskTableDefinition.getColName(),
@@ -52,16 +56,13 @@ public class TaskCrud extends Crud {
                 cursor.moveToNext();
             }
         };
-        close();
         return arrayTask;
     };
 
-    public static void delete(long Id){
+    public void delete(long Id){
         Log.d(TAG, "delete() called with: Id = [" + Id + "]");
-        openForWrite();
         String[] arg = new String[] {String.valueOf(Id)};
         String where = String.format("%s=?", TaskTableDefinition.getColId(), Id) ;
         getDb().delete(TaskTableDefinition.getTableName(), where, arg);
-        close();
     }
 }
