@@ -1,21 +1,20 @@
-package com.cleanup.todoc.DataBase;
+package com.cleanup.todoc.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.cleanup.todoc.model.Project;
-import com.cleanup.todoc.model.Task;
 
 import java.util.ArrayList;
 
 public class ProjectCrud extends Crud {
     private static final String TAG = "Todoc ProjectCrud";
 
-    public ProjectCrud(Context context) {
-        super(context);
+    public ProjectCrud() {
+        super();
+        Log.d(TAG, "Todoc ProjectCrud() called");
     }
 
     public long insert(Project project) {

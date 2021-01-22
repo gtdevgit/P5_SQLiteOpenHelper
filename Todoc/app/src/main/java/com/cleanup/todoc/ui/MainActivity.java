@@ -17,8 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.cleanup.todoc.DataBase.ProjectCrud;
-import com.cleanup.todoc.DataBase.TaskCrud;
+import com.cleanup.todoc.database.ProjectCrud;
+import com.cleanup.todoc.database.TaskCrud;
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         listTasks = findViewById(R.id.list_tasks);
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     public Project[] loadAllProjects(){
-        ProjectCrud projectCrud = new ProjectCrud(this);
+        ProjectCrud projectCrud = new ProjectCrud();
         ArrayList<Project> arrayList = projectCrud.getAll();
         Project[] arrayProject = new Project[arrayList.size()];
         arrayProject = arrayList.toArray(arrayProject);
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     public void loadAllTasks(){
-        TaskCrud taskCrud = new TaskCrud(this);
+        TaskCrud taskCrud = new TaskCrud();
         tasks.clear();
         tasks.addAll(taskCrud.getAll());
         updateTasks();
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void addTask(@NonNull Task task) {
         tasks.add(task);
-        TaskCrud tc = new TaskCrud(this);
+        TaskCrud tc = new TaskCrud();
         tc.insert(task);
         updateTasks();
     }

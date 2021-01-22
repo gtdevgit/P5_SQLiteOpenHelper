@@ -1,4 +1,4 @@
-package com.cleanup.todoc.DataBase;
+package com.cleanup.todoc.database;
 
 public class ProjectTableDefinition {
     private static final String TABLE_NAME = "projects";

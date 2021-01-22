@@ -1,9 +1,8 @@
-package com.cleanup.todoc.DataBase;
+package com.cleanup.todoc.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.cleanup.todoc.model.Task;
@@ -13,9 +12,13 @@ import java.util.ArrayList;
 public class TaskCrud extends Crud{
     private static final String TAG = "Todoc TaskCrud";
 
-    public TaskCrud(Context context) {
-        super(context);
-        Log.d(TAG, "TaskCrud() called with: context = [" + context + "]");
+    public TaskCrud() {
+        super();
+        Log.d(TAG, "Todoc TaskCrud()");
+    }
+
+    public void openForWrite(){
+        super.openForWrite();
     }
 
     public long insert(Task task) {

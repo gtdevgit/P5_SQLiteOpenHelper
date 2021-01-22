@@ -1,4 +1,4 @@
-package com.cleanup.todoc.DataBase;
+package com.cleanup.todoc.database;
 
 import android.content.ContentValues;
 import android.content.Context;
